@@ -19,26 +19,41 @@ use Zend\View\Model\ViewModel;
 
 class CsvModel extends ViewModel
 {
-   
-    /**
-     * valeur par défaut. a remplacer par les valeur du fichier de config
-     */
+	/**
+	 * JSON probably won't need to be captured into a
+	 * a parent container by default.
+	 *
+	 * @var string
+	 */
+	protected $captureTo = null;
+	
+	 
+	/**
+	 * JSON is usually terminal
+	 *
+	 * @var bool
+	 */
+	protected $terminate = true;
+	
+	/**
+	 * valeur par défaut. a remplacer par les valeur du fichier de config
+	 */
 	protected $delimiter = ';';
-    /**
-     * valeur par défaut. a remplacer par les valeur du fichier de config
-     */
-    protected $enclosure = '"';
-    protected $retourLigne = '\n';
+	/**
+	 * valeur par défaut. a remplacer par les valeur du fichier de config
+	 */
+	protected $enclosure = '"';
+	protected $retourLigne = "\n";
+	
 
-    /**
+        /**
      * Serialize to CSV
      *
      * @return string
      */
     public function serialize()
     {
-        $encloseAll = false; 
-        $nullToMysqlNull = false ;
+         $encloseAll = false; $nullToMysqlNull = false ;
         $delimiter_esc = preg_quote($this->delimiter, '/');
         $enclosure_esc = preg_quote($this->enclosure, '/');
     
@@ -48,32 +63,15 @@ class CsvModel extends ViewModel
             $lignes = ArrayUtils::iteratorToArray($lignes);
         }
         
-        foreach ( $lignes as $ligne ) {
-            if ($ligne === null && $nullToMysqlNull) {
-                $output[] = 'NULL';
-                continue;
-            }
-            $line = array();
-            foreach ($ligne as $datas) {
-	            if ( $encloseAll || preg_match( "/(?:${delimiter_esc}|${enclosure_esc}|\s)/", $datas) ) 
-	            {
-	                $line[] = $this->enclosure
-	                				.str_replace($this->enclosure, $this->enclosure . $this->enclosure, $datas) 
-	                				.$this->enclosure;
-	            }
-	            else {
-	                $line[] = $datas;
-	            }
-            }
-//             var_dump($line);
-            $donnees = implode($line, $this->delimiter).$this->delimiter.$this->retourLigne;
-//             var_dump($donnees);
-            
-            $output[] = $donnees;
-    
+        //pour chaque ligne on ajoute un caractére de fin de ligne
+        //pour chaque cellule, on encapsule de guillemet et on sépare avec le séparateur
+        foreach ($lignes as $ligne) {
+        	$donnees = array();
+        	foreach ($ligne as $donnee) {
+        		$donnees[] =  $this->enclosure.$donnee.$this->enclosure.$this->delimiter;
+        	}
+        	$output[] = implode($donnees);
         }
-//             var_dump($output);
-        
-        return $output;
+        return implode($output, $this->retourLigne);
     }
 }

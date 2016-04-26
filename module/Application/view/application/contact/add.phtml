@@ -1,0 +1,22 @@
+<h2>Ajout contact</h2>
+<?=$this->form($contactForm)?>
+
+
+<?=$this->form()->openTag($contactForm)?>
+<div>
+	<?=$this->formRow($contactForm->get('nom'))?>
+</div>
+<div>
+	<?=$this->formLabel($contactForm->get('prenom'))?>
+	<?=$this->formElement($contactForm->get('prenom'))?>
+	<?=$this->formElementErrors($contactForm->get('prenom'))?>
+</div>
+<div>
+	<?=$this->formLabel($contactForm->get('telephone'))?>
+	<?=$this->formTel($contactForm->get('telephone'))?>
+	<?=$this->formElementErrors($contactForm->get('telephone'))?>
+</div>
+<div>
+	<?=$this->formRow($contactForm->get('submit'))?>
+</div>
+<?=$this->form()->closeTag()?>

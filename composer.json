@@ -1,0 +1,29 @@
+{
+    "name": "zendframework/skeleton-application",
+    "description": "Skeleton Application for ZF2",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zend-mvc": "^2",
+        "zendframework/zend-modulemanager": "^2",
+        "zendframework/zend-config": "^2",
+        "zendframework/zend-cache": "^2",
+        "zendframework/zend-log": "^2",
+        "zendframework/zend-view": "^2",
+        "zendframework/zend-serializer": "^2",
+        "zendframework/zend-i18n": "^2",
+        "zendframework/zend-console": "^2",
+        "zendframework/zend-version": "^2",
+        "zendframework/zend-eventmanager": "^2",
+        "zendframework/zend-servicemanager": "^2",
+        "doctrine/doctrine-orm-module": "^0.10.0"
+    },
+    "require-dev" : {
+        "zendframework/zend-test" : "^2"
+    }
+}
